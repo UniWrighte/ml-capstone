@@ -1,30 +1,71 @@
-import logo from './logo.svg'
 import './App.css'
 import { useEffect, useState } from 'react'
+import { AppBar, Tabs, Tab, Box, Typography } from '@material-ui/core'
+import { observer } from 'mobx-react'
+import { toJS } from 'mobx'
+import test from 'mobx-react'
+import DataStore from './Store/DataStore'
 
-function App () {
-  useEffect(() => {
-    fetch(process.env.REACT_APP_API + '/courses')
-      .then(res => res.json()).then()
-  }, [])
+function TabPanel (props) {
+  const { children, value, index, ...other } = props
+
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      role='tabpanel'
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
     </div>
   )
 }
 
-export default App
+function a11yProps (index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`
+  }
+}
+
+function App () {
+  useEffect(() => {
+    // fetch(process.env.REACT_APP_API + '/courses', { mode: 'cors' })
+      // .then(res => res.json()).then(courses => setCourses(courses))
+    DataStore.getCourses()
+  }, [])
+  const { courses } = DataStore
+  console.log({ courses: toJS(courses) })
+  const [value, setValue] = useState(0)
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+  }
+  return (
+    <div className='App'>
+      <AppBar position='static'>
+        <Tabs value={value} onChange={handleChange} aria-label='simple tabs example'>
+          <Tab label='Item One' {...a11yProps(0)} />
+          <Tab label='Item Two' {...a11yProps(1)} />
+          <Tab label='Item Three' {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+      <TabPanel value={value} index={0}>
+        Item One
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        Item Two
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        Item Three
+      </TabPanel>
+    </div>
+  )
+}
+
+export default observer(App)

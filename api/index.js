@@ -1,8 +1,11 @@
 const app = require('express')()
+const cors = require('cors')
 const fetch = require('node-fetch')
 const PORT = process.env.PORT || 8080
 const qs = require('querystring')
 const data = require('../data/store/data.json')
+
+app.use(cors())
 
 app.get('/', async (req, res, next) => {
   try {
@@ -25,6 +28,7 @@ app.get('/ml', async (req, res, next) => {
 })
 app.get('/courses', async (req, res, next) => {
   const { courses } = data
+  console.log({ courses })
   return res.status(200).json({ courses })
 })
 app.use((error, req, res, next) => {

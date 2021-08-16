@@ -1,0 +1,19 @@
+{
+  "standard": {
+    "parser": "babel-eslint",
+    "globals": [ "fetch" ]
+  },
+  "babel": {
+    "plugins": [
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ]
+    ],
+    "presets": [
+      "react-app"
+    ]
+  }
+}
