@@ -1,0 +1,11 @@
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  padding: '40px';
+  margin: '40px';
+  width: '200px';
+
+}
+.card:hover {
+  background-color: rgba(0,0,0, .2);
+}
