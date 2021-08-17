@@ -1,7 +1,9 @@
 {
   "standard": {
     "parser": "babel-eslint",
-    "globals": [ "fetch" ]
+    "globals": [
+      "fetch"
+    ]
   },
   "babel": {
     "plugins": [
